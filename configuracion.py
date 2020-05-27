@@ -1,8 +1,25 @@
 import random
 import PySimpleGUI as sg
+import json
 
 letras_puntos={'a':1,'b':3,'c':2,'d':2,'e':1,'f':4,'g':2,'h':4,'i':1,'j':6,'k':8,'l':1,'m':3,'n':1,'o':1,'p':3,'q':8,'r':1,'s':1,'t':1,'u':1,'v':4,'w':8,'x':8,'y':4,'z':10}
 letras_cantidad={'a':11,'b':3,'c':4,'d':4,'e':11,'f':2,'g':2,'h':2,'i':6,'j':2,'k':1,'l':4,'m':3,'n':5,'o':8,'p':2,'q':1,'r':4,'s':7,'t':4,'u':6,'v':2,'w':2,'x':1,'y':1,'z':1}
+
+def guardar_nivel(ruta,datos):
+    lista = []
+    archivo = open(ruta,'r')
+    lista = json.load(archivo)
+    json.close()
+    lista.append(datos)
+    archivo = open(ruta,'w')
+    json.dump(lista , archivo)
+    json.close()
+
+def leer_Nivel(ruta):
+    archivo = open(ruta,'r')
+    lista = json.load(archivo)
+    json.close()
+    return lista
 
 def nivel_facil(letrasPuntos,letrasCantidad):
     for i in letrasPuntos.keys():
@@ -39,8 +56,6 @@ def main():
     while True:
         event, value = window.read()
         if event is None or event == 'Cancelar':
-            listaConfiguracion = nivel_medio(letras_puntos,letras_cantidad)
-            listaConfiguracion['Tiempo'] = 60
             break
         if event == 'Facil':
             listaConfiguracion = nivel_facil(letras_puntos,letras_cantidad)
@@ -49,7 +64,7 @@ def main():
             window['Dificil'].update(disabled=False)
             window['Confirmar'].update(disabled=False)
         if event == 'Medio':
-            listaConfiguracion = nivel_medio(letras_puntos,letras_cantidad)
+            listaConfiguracion = nivel_medio(letrasPuntos,letrasCantidad)
             window['Facil'].update(disabled=False)
             window['Medio'].update(disabled=True)
             window['Dificil'].update(disabled=False)
@@ -57,14 +72,15 @@ def main():
         if event == 'Dificil':
             listaConfiguracion = nivel_dificil(letras_puntos,letras_cantidad)
             window['Facil'].update(disabled=False)
-            window['Medio'].update(disabled=False)
+            window['Medjio'].update(disabled=False)
             window['Dificil'].update(disabled=True)
             window['Confirmar'].update(disabled=False)
         if event == 'Confirmar':
             listaConfiguracion['Tiempo'] = value['tiempo']
             break
     window.close()
-    return listaConfiguracion
+    guardar_nivel('archivonivel',listaConfiguracion)
+    return listaConfiguracion = leer_Nivel('arhivonivel')
 
 if __name__ == '__main__':
     main()

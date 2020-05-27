@@ -16,7 +16,7 @@ while True:
     if event is None or event == 'Salir':
         break
     if event == 'Configurar':
-        listaConfiguracion= configuracion.main()
+        listaConfiguracion = configuracion.main()
         print(listaConfiguracion)
     if event == 'Jugar':
         juego.main(listaConfiguracion)
