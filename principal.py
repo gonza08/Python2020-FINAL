@@ -1,6 +1,7 @@
 import configuracion
 import PySimpleGUI as sg
 import juego
+import puntajes
 layout = [
     [sg.Text('ScrabbleAR',size= (20,2),font = ('Arial', 12, 'bold'),)],
     [sg.Button('Jugar',size= (20,2))],
@@ -21,7 +22,7 @@ while True:
     if event == 'Jugar':
         juego.main(listaConfiguracion)
     if event == 'Puntajes':
-        print('estamos en eso')
+        puntajes.main()
 window.close()
 
 #prueva agregar cosas por github
